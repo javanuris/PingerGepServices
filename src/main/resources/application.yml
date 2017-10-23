@@ -1,0 +1,10 @@
+server:
+  port: 8292
+
+url: http://172.30.75.140:38580
+telegram:
+  token: 421903934:AAFC_F-6g8BFe5oEZqs7aGNctDUCcltXCBA #@nurislam_bot
+  chatId: 430387058 #Nuris чат  #-150313782 #ГЭП-разработка чат
+
+  botName: pinger_bot
+

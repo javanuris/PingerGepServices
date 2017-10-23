@@ -1,73 +1,80 @@
 package kz.pinnger.pinger.services;
 
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Component
+@ConfigurationProperties(prefix = "telegram")
 public class PingerBot extends TelegramLongPollingBot {
+    private String token;
+    private String chetId;
+    private String pingerName;
+
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
-
         System.out.println(message);
         sendMsg(message , "Text" + message.getText() + "/" + message.getChatId());
         if(message!=null && message.hasText()){
             if(message.getText().equals("/help")){
-                keyBoard(message);
+                sendMsg(message, " Я  знаю что ответить на это");
             }else{
                 sendMsg(message, " Я не знаю что ответить на это");
             }
         }
     }
 
-    private void keyBoard(Message message){
-        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<List<InlineKeyboardButton>>();
-        List<InlineKeyboardButton> rowInline = new ArrayList<InlineKeyboardButton>();
-        rowInline.add(new InlineKeyboardButton().setText("Update Massage").setCallbackData("update msg test"));
-        rowsInline.add(rowInline);
-        markup.setKeyboard(rowsInline);
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setReplyMarkup(markup);
-        sendMessage.setChatId(message.getChatId().toString());
-        sendMessage.enableMarkdown(true);
-        sendMessage.setText("something");
-        try {
-            sendMessage(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private void sendMsg(Message message, String text){
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId().toString());
         sendMessage.setText(text);
-
         try {
-            sendMessage(sendMessage);
+            execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
 
     }
 
-
     public String getBotUsername() {
-        return "gep_notifier_bot";
+        return pingerName;
     }
 
     public String getBotToken() {
-        return "421903934:AAFC_F-6g8BFe5oEZqs7aGNctDUCcltXCBA";
+        return token;
     }
 
+
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getChetId() {
+        return chetId;
+    }
+
+    public void setChetId(String chetId) {
+        this.chetId = chetId;
+    }
+
+    public String getPingerName() {
+        return pingerName;
+    }
+
+    public void setPingerName(String pingerName) {
+        this.pingerName = pingerName;
+    }
 }
 
