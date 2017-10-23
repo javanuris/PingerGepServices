@@ -1,10 +1,16 @@
 package kz.pinnger.pinger.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpRequestUtil {
+   static Logger log = LoggerFactory.getLogger(HttpRequestUtil.class);
+
+
     public static int httpGetRequest(String address) {
         int responseCode = 0;
         try {
@@ -15,6 +21,7 @@ public class HttpRequestUtil {
             responseCode = connection.getResponseCode();
 
         } catch (IOException e) {
+            log.error("Http request to server, wrong" , e);
             e.printStackTrace();
         }
         return responseCode;

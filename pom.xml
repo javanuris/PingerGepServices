@@ -5,7 +5,7 @@
 
 	<groupId>kz.pinnger</groupId>
 	<artifactId>pinger</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>pinger</name>
@@ -75,8 +75,6 @@
 					<proc>none</proc>
 				</configuration>
 			</plugin>
-
-
 
 		</plugins>
 	</build>

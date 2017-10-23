@@ -1,6 +1,7 @@
 package kz.pinnger.pinger.services;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -10,15 +11,19 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 @Component
-@ConfigurationProperties(prefix = "telegram")
+@ConfigurationProperties
 public class PingerBot extends TelegramLongPollingBot {
+    Logger log = LoggerFactory.getLogger(PingerBot.class);
+
     private String token;
     private String chetId;
-    private String pingerName;
+    private String botName;
 
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
-        System.out.println(message);
+
+        log.info(message.toString());
+
         sendMsg(message , "Text" + message.getText() + "/" + message.getChatId());
         if(message!=null && message.hasText()){
             if(message.getText().equals("/help")){
@@ -38,20 +43,18 @@ public class PingerBot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Error in sending massage to client " , e);
         }
 
     }
 
     public String getBotUsername() {
-        return pingerName;
+        return "pinger_bot";
     }
 
     public String getBotToken() {
-        return token;
+        return "421903934:AAFC_F-6g8BFe5oEZqs7aGNctDUCcltXCBA";
     }
-
-
 
     public String getToken() {
         return token;
@@ -69,12 +72,11 @@ public class PingerBot extends TelegramLongPollingBot {
         this.chetId = chetId;
     }
 
-    public String getPingerName() {
-        return pingerName;
+    public String getBotName() {
+        return botName;
     }
-
-    public void setPingerName(String pingerName) {
-        this.pingerName = pingerName;
+    public void setBotName(String botName) {
+        this.botName = botName;
     }
 }
 
