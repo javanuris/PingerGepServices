@@ -14,6 +14,9 @@ import java.util.List;
 public class PingerBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
+
+        System.out.println(message);
+        sendMsg(message , "Text" + message.getText() + "/" + message.getChatId());
         if(message!=null && message.hasText()){
             if(message.getText().equals("/help")){
                 keyBoard(message);
